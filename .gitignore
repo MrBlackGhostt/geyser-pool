@@ -1,2 +1,47 @@
-target
+# Rust/Cargo build artifacts
+/target/
+**/*.rs.bk
+*.pdb
+
+# Cargo lock file (include this if building a library, exclude for binaries)
+# For Geyser plugins (libraries), you typically exclude it
+Cargo.lock
+
+# Debug and profiling
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# OS-specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Solana test validator ledger
+/test-ledger/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Environment and config files (if they contain secrets)
+.env
+*.local
+
+# Plugin output files (your custom logs)
+account_update_logs.txt
+account_logs.txt
+*.log
+
+# macOS security attrib
 
