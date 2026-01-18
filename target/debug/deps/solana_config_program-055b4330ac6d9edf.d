@@ -1,8 +1,0 @@
-/Users/mrblackghost/Documents/practice/geyser-basic/target/debug/deps/solana_config_program-055b4330ac6d9edf.d: /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/lib.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/config_instruction.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/config_processor.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/date_instruction.rs
-
-/Users/mrblackghost/Documents/practice/geyser-basic/target/debug/deps/libsolana_config_program-055b4330ac6d9edf.rmeta: /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/lib.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/config_instruction.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/config_processor.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/date_instruction.rs
-
-/Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/lib.rs:
-/Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/config_instruction.rs:
-/Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/config_processor.rs:
-/Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/solana-config-program-1.18.26/src/date_instruction.rs:
