@@ -1,0 +1,5 @@
+/Users/mrblackghost/Documents/practice/geyser-basic/target/debug/deps/spl_program_error-1fefb67240ed5946.d: /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-program-error-0.3.0/src/lib.rs
+
+/Users/mrblackghost/Documents/practice/geyser-basic/target/debug/deps/libspl_program_error-1fefb67240ed5946.rmeta: /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-program-error-0.3.0/src/lib.rs
+
+/Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-program-error-0.3.0/src/lib.rs:

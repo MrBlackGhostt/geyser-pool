@@ -1,0 +1,17 @@
+[package]
+name = "geyser-basic"
+version = "0.1.0"
+edition = "2024"
+
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+log = "0.4.29"
+serde = "1.0.228"
+serde_json = "1.0.149"
+agave-geyser-plugin-interface = "3.0.0"
+solana-program = "2.1.0"
+
+

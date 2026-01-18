@@ -1,0 +1,8 @@
+/Users/mrblackghost/Documents/practice/geyser-basic/target/debug/deps/spl_token_metadata_interface-e83d60bab4b945ce.d: /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/lib.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/error.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/instruction.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/state.rs
+
+/Users/mrblackghost/Documents/practice/geyser-basic/target/debug/deps/libspl_token_metadata_interface-e83d60bab4b945ce.rmeta: /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/lib.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/error.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/instruction.rs /Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/state.rs
+
+/Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/lib.rs:
+/Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/error.rs:
+/Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/instruction.rs:
+/Users/mrblackghost/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/spl-token-metadata-interface-0.8.0/src/state.rs:
