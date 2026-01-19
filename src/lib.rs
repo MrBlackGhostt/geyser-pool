@@ -2,8 +2,9 @@ use agave_geyser_plugin_interface::geyser_plugin_interface::{
     GeyserPlugin, GeyserPluginError, ReplicaAccountInfoVersions, Result,
 };
 use serde::Deserialize;
-use std::fs::{OpenOptions, read_to_string};
+use std::fs::{File, OpenOptions, read_to_string};
 use std::io::Write;
+use std::sync::Mutex;
 
 #[derive(Deserialize)]
 struct PluginConfig {
@@ -13,6 +14,7 @@ struct PluginConfig {
 #[derive(Default, Debug)]
 pub struct LearningPlugin {
     pub file_path: String,
+    pub file: Option<Mutex<File>>, //Option tell it may or may not have a file
 }
 
 impl GeyserPlugin for LearningPlugin {
@@ -21,14 +23,24 @@ impl GeyserPlugin for LearningPlugin {
     }
 
     fn on_load(&mut self, config_file: &str, _is_reload: bool) -> Result<()> {
+        // GO to the file (config_file) & read the content and make the json into the string (config_path)
         let config_path =
             read_to_string(config_file).map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
 
+        // Deserialize the string (config_path) into the struct (PluginConfig)
         let config: PluginConfig = serde_json::from_str(&config_path)
             .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
 
+        // Set the file path to the log path from the config
         self.file_path = config.log_path;
 
+        let file = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(&self.file_path)
+            .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
+
+        self.file = Some(Mutex::new(file)); // the file wrapping in the mutex for the safe lock and putting that lock in the option box(that why use the Some);
         Ok(())
     }
 
@@ -49,16 +61,12 @@ impl GeyserPlugin for LearningPlugin {
                     account_info.data.len()
                 );
 
-                // put in the database
-                //
-                let mut file = OpenOptions::new()
-                    .create(true)
-                    .append(true)
-                    .open(&self.file_path)
-                    .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
-
-                file.write_all(log_entry.as_bytes())
-                    .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
+                if let Some(mutex) = &self.file {
+                    //here check the self.file has something some init if it it borrow call it mutex and if it is empty (None) skip this block
+                    let mut file = mutex.lock().unwrap();
+                    file.write_all(log_entry.as_bytes())
+                        .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
+                }
             }
             _ => {}
         }
