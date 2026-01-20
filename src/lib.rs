@@ -1,17 +1,16 @@
 use agave_geyser_plugin_interface::geyser_plugin_interface::{
     GeyserPlugin, GeyserPluginError, ReplicaAccountInfoVersions, Result,
 };
+use solana_program::program_pack::Pack;
+use spl_token::state::Account as SplAccount; // Rename to avoid confusion
 
 mod state;
-use serde::{Deserialize, Serialize};
+use crate::state::{LearningPlugin, LogEntry, PluginConfig, TokenAccountInfo};
 use solana_program::pubkey::Pubkey;
 use std::convert::TryFrom;
-use std::fs::{File, OpenOptions, read_to_string};
-use std::io::Write;
+use std::fs::{OpenOptions, read_to_string};
 use std::str::FromStr;
 use std::sync::Mutex;
-
-use crate::state::{LearningPlugin, LogEntry, PluginConfig};
 
 impl GeyserPlugin for LearningPlugin {
     fn name(&self) -> &'static str {
@@ -51,12 +50,24 @@ impl GeyserPlugin for LearningPlugin {
         match account {
             ReplicaAccountInfoVersions::V0_0_3(account_info) => {
                 //Serialize the data  to a simple string
+                let mut token_info = None;
+                if self.target_owner == spl_token::ID {
+                    if let Ok(unpacked) = SplAccount::unpack(account_info.data) {
+                        token_info = Some(TokenAccountInfo {
+                            mint: unpacked.mint.to_string(),
+                            owner: unpacked.owner.to_string(),
+                            amount: unpacked.amount,
+                        });
+                    }
+                }
+
                 if self.should_log(account_info.owner) {
                     let entry = LogEntry {
                         slot,
                         pubkey: Pubkey::try_from(account_info.pubkey).unwrap().to_string(),
                         owner: Pubkey::try_from(account_info.owner).unwrap().to_string(),
                         data_len: account_info.data.len(),
+                        decode_data: token_info,
                     };
                     // let json_bytes = serde_json::to_vec(&entry)
                     //     .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;

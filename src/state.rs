@@ -3,9 +3,17 @@ use agave_geyser_plugin_interface::geyser_plugin_interface::{
 };
 use serde::{Deserialize, Serialize};
 use solana_program::pubkey::Pubkey;
+
 use std::fs::File;
 use std::io::Write;
 use std::sync::Mutex;
+
+#[derive(Serialize)]
+pub struct TokenAccountInfo {
+    pub mint: String,
+    pub owner: String,
+    pub amount: u64,
+}
 
 #[derive(Deserialize)]
 pub struct PluginConfig {
@@ -19,6 +27,7 @@ pub struct LogEntry {
     pub pubkey: String,
     pub owner: String,
     pub data_len: usize,
+    pub decode_data: Option<TokenAccountInfo>,
 }
 #[derive(Default, Debug)]
 pub struct LearningPlugin {
@@ -41,21 +50,9 @@ impl LearningPlugin {
             let mut file = mutex.lock().unwrap();
             file.write_all(&json_bytes)
                 .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
-            file.write_all(b"\n")
+            file.write_all(b",\n")
                 .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
         };
         Ok(())
     }
 }
-///////// impl LearningPlugin {
-//     fn should_log(&self, owner: &[u8]) -> bool {
-//         self.target_owner.as_ref() == owner
-//     }
-//     fn write_entry(&self, entry: &LogEntry) -> Result<()> {
-//         // Move the JSON serialization and file writing logic here
-//         // Note: You'll need to handle the errors and return Result<()>
-//         // ...
-//         let log_entry_bytes = serde_json::to_vec(&entry).unwrap();
-//         Ok(())
-//     }
-// }
