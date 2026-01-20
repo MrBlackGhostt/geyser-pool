@@ -1,18 +1,31 @@
 use agave_geyser_plugin_interface::geyser_plugin_interface::{
     GeyserPlugin, GeyserPluginError, ReplicaAccountInfoVersions, Result,
 };
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
+use solana_program::pubkey::Pubkey;
+use std::convert::TryFrom;
 use std::fs::{File, OpenOptions, read_to_string};
 use std::io::Write;
+use std::str::FromStr;
 use std::sync::Mutex;
 
 #[derive(Deserialize)]
 struct PluginConfig {
     log_path: String,
+    target_owner: String,
+}
+
+#[derive(Serialize)]
+struct LogEntry {
+    slot: u64,
+    pubkey: String,
+    owner: String,
+    data_len: usize,
 }
 
 #[derive(Default, Debug)]
 pub struct LearningPlugin {
+    pub target_owner: Pubkey,
     pub file_path: String,
     pub file: Option<Mutex<File>>, //Option tell it may or may not have a file
 }
@@ -33,6 +46,8 @@ impl GeyserPlugin for LearningPlugin {
 
         // Set the file path to the log path from the config
         self.file_path = config.log_path;
+        self.target_owner = Pubkey::from_str(&config.target_owner)
+            .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
 
         let file = OpenOptions::new()
             .create(true)
@@ -53,20 +68,25 @@ impl GeyserPlugin for LearningPlugin {
         match account {
             ReplicaAccountInfoVersions::V0_0_3(account_info) => {
                 //Serialize the data  to a simple string
-
-                let log_entry = format!(
-                    "Slot: {} | Pubkey: {:?} | Data Len: {}\n",
-                    slot,
-                    account_info.pubkey,
-                    account_info.data.len()
-                );
-
-                if let Some(mutex) = &self.file {
-                    //here check the self.file has something some init if it it borrow call it mutex and if it is empty (None) skip this block
-                    let mut file = mutex.lock().unwrap();
-                    file.write_all(log_entry.as_bytes())
+                if self.target_owner.as_ref() == account_info.owner {
+                    let entry = LogEntry {
+                        slot,
+                        pubkey: Pubkey::try_from(account_info.pubkey).unwrap().to_string(),
+                        owner: Pubkey::try_from(account_info.owner).unwrap().to_string(),
+                        data_len: account_info.data.len(),
+                    };
+                    let json_bytes = serde_json::to_vec(&entry)
                         .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
-                }
+
+                    if let Some(mutex) = &self.file {
+                        //here check the self.file has something some init if it it borrow call it mutex and if it is empty (None) skip this block
+                        let mut file = mutex.lock().unwrap();
+                        file.write_all(&json_bytes)
+                            .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
+                        file.write_all(b"\n")
+                            .map_err(|e| GeyserPluginError::Custom(Box::new(e)))?;
+                    }
+                };
             }
             _ => {}
         }
